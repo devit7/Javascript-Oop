@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Professor {
+        name;
+        teaches;
+
+        constructor(name, teaches) {
+          (this.name = name), (this.teaches = teaches);
+        }
+
+        introduceSelf() {
+          console.log(`My name is Professor ${this.name}`);
+        }
+      }
+
+      const walsh = new Professor("Walsh", "Psychology");
+      console.log(walsh.introduceSelf());
+      
+    </script>
+  </body>
+</html>
