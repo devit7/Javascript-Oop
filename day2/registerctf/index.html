@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="max-w-[400px] mx-auto mt-20">
+      <form action="" id="formId" class="flex flex-col space-y-4">
+        <h1 class="text-2xl font-semibold">Register CTF</h1>
+        <div class="flex-col flex">
+          <label for="">Name</label>
+          <input
+            id="inputName"
+            class="border"
+            value=""
+            name="name"
+            type="text"
+          />
+          <span id="errorName" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Username</label>
+          <input
+            id="inputUsername"
+            class="border"
+            value=""
+            name="username"
+            type="text"
+          />
+          <span id="errorUsername" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Email</label>
+          <input
+            id="inputEmail"
+            class="border"
+            value=""
+            name="Email"
+            type="text"
+          />
+          <span id="errorEmail" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Password</label>
+          <input
+            id="inputPassword"
+            class="border"
+            value=""
+            name="password"
+            type="text"
+          />
+          <span id="errorPassword" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Campus</label>
+          <input
+            id="inputCampus"
+            class="border"
+            value=""
+            name="campus"
+            type="text"
+          />
+          <span id="errorCampus" class="text-red-500"></span>
+        </div>
+        <button type="submit" class="border cursor-pointer">Submit</button>
+      </form>
+    </div>
+
+    <div class="mt-10 mx-auto max-w-[500px]">
+      <h1 class="font-semibold mb-4 text-2xl">Data User :</h1>
+      <table>
+        <thead class="border">
+          <tr>
+            <th class="p-2">Name</th>
+            <th class="p-2">Email</th>
+            <th class="p-2">Username</th>
+            <th class="p-2">Campus</th>
+            <th class="p-2">Option</th>
+          </tr>
+        </thead>
+        <tbody class="border" id="addedElement"></tbody>
+      </table>
+    </div>
+    <script>
+      const formData = document.getElementById("formId");
+
+      formData.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log("submit");
+        const addedElement = document.getElementById("addedElement");
+
+        const inputEmail = document.getElementById("inputEmail");
+        const inputName = document.getElementById("inputName");
+        const inputUsername = document.getElementById("inputUsername");
+        const inputPassword = document.getElementById("inputPassword");
+        const inputCampus = document.getElementById("inputCampus");
+
+        const errorEmail = document.getElementById("errorEmail");
+        const errorName = document.getElementById("errorName");
+        const errorUsername = document.getElementById("errorUsername");
+        const errorPassword = document.getElementById("errorPassword");
+        const errorCampus = document.getElementById("errorCampus");
+
+        errorEmail.innerText = "";
+        errorName.innerText = "";
+        errorUsername.innerText = "";
+        errorPassword.innerText = "";
+        errorCampus.innerText = "";
+
+        function reset() {
+          inputEmail.value = "";
+          inputCampus.value = "";
+          inputName.value = "";
+          inputPassword.value = "";
+          inputUsername.value = "";
+        }
+
+        //validation form
+        let inputValid = true;
+        if (!inputEmail.value) {
+          errorEmail.innerText = "Email is required.";
+          inputValid = false;
+        }
+        if (!inputName.value) {
+          errorName.innerText = "Name is required.";
+          inputValid = false;
+        }
+        if (!inputUsername.value) {
+          errorUsername.innerText = "Username is required.";
+          inputValid = false;
+        }
+        if (!inputPassword.value || inputPassword.value.length < 6) {
+          errorPassword.innerText = "Password must be at least 6 character.";
+          inputValid = false;
+        }
+        if (!inputCampus.value) {
+          errorCampus.innerText = "Campus is required.";
+          inputValid = false;
+        }
+
+        if (!inputValid) return null;
+
+        const participant = new Participant({
+          email: inputEmail.value,
+          name: inputName.value,
+          campus: inputCampus.value,
+          password: inputPassword.value,
+          username: inputUsername.value,
+        });
+        if (participant.addData()) {
+          reset();
+        }
+      });
+
+      function deleteByUsername(val) {
+        console.log(val);
+        Participant.deleteData(val)
+      }
+
+      // OOP
+      class Person {
+        #_name;
+        #_username;
+        #_email;
+        #_password;
+
+        constructor({ name, username, email, password }) {
+          this.#_name = name;
+          this.#_username = username;
+          this.#_email = email;
+          this.#_password = password;
+        }
+
+        get name() {
+          return this.#_name;
+        }
+        get username() {
+          return this.#_username;
+        }
+        get email() {
+          return this.#_email;
+        }
+        get password() {
+          return this.#_password;
+        }
+      }
+
+      class Participant extends Person {
+        #campus;
+        constructor({ campus, name, username, email, password }) {
+          super({
+            email: email,
+            name: name,
+            password: password,
+            username: username,
+          });
+          this.#campus = campus;
+        }
+
+        addData() {
+          let isValid = true;
+          const allParticipant =
+            JSON.parse(localStorage.getItem("participant")) ?? [];
+
+          const emailCheck = allParticipant.filter(
+            (data) => data.email == this.email
+          );
+          const usernameCheck = allParticipant.filter(
+            (data) => data.username == this.username
+          );
+          if (emailCheck.length > 0) {
+            errorEmail.innerText = "Email already exist.";
+            isValid = false;
+          }
+          if (usernameCheck.length > 0) {
+            errorUsername.innerText = "Username already exist.";
+            isValid = false;
+          }
+
+          if (!isValid) return null;
+
+          allParticipant.push({
+            name: this.name,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            campus: this.#campus,
+          });
+          localStorage.setItem("participant", JSON.stringify(allParticipant));
+          console.log("data added");
+          Participant.showAllData();
+
+          return true;
+        }
+
+
+        static showAllData() {
+          if (localStorage.getItem("participant")) {
+            addedElement.innerHTML = "";
+            const get = JSON.parse(localStorage.getItem("participant"));
+            //console.log(get);
+            get.map((item) => {
+              addedElement.innerHTML += `<tr  >
+              <td class="p-2">${item.name}</td>  
+              <td class="p-2">${item.email}</td>  
+              <td class="p-2">${item.username}</td>  
+              <td class="p-2">${item.campus}</td>  
+              <td class="p-2">
+                <button onClick="deleteByUsername('${item.username}')" class="border rounded-md px-1 cursor-pointer">Delete</button>  
+              </td>
+            </tr>
+          `;
+            });
+          }
+        }
+
+        static deleteData(username) {
+          const data = JSON.parse(localStorage.getItem("participant"));
+          const temp = data.filter((e) => {
+            return e.username != username;
+          });
+          //console.log("temp",temp);
+          localStorage.setItem("participant",JSON.stringify(temp))
+          Participant.showAllData();
+        }
+      }
+
+
+      Participant.showAllData();
+    </script>
+  </body>
+</html>
