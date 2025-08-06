@@ -1,0 +1,30 @@
+User
+- name
+- email
+- username
+- password
+- role
+
+
+Participant
+- campus
+- role = "participant"
+
+Admin
+- role = "admin"
+
+
+Chall
+- Title
+- description
+- flag
+- point
+- category
++ checkFlag()
+
+Submission
+- chall_title
+- username
+- flag
+
+
