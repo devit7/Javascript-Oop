@@ -38,6 +38,26 @@ export default class CTFPlatform {
       campus: campus,
     });
     this.listParticipant.push(participant);
+    let tempListparticipant = [];
+    tempListparticipant.push(participant.getDataAuth());
+    localStorage.setItem(
+      "ls-listParticipant",
+      JSON.stringify(tempListparticipant)
+    );
+  }
+
+  authLogin({ username, password }) {
+    const ls_participant = JSON.parse(
+      localStorage.getItem("ls-listParticipant")
+    );
+    //console.log(ls_participant)
+    const isValid = ls_participant.find((item) => {
+      return item.username === username && item.password === password;
+    });
+    if (!isValid) {
+      return console.log("Wrong username and password");
+    }
+    localStorage.setItem("auth-user", JSON.stringify(isValid));
   }
 
   addChallenge({ title, description, flag, point, adminId }) {
@@ -117,9 +137,11 @@ export default class CTFPlatform {
     }
 
     // check not solved
-    const isSolved = this.listSubmitSuccessFull.find((item)=>item.parti_id === participantId)
-    if(!isSolved){
-        return console.log("Please solve first and you can review")
+    const isSolved = this.listSubmitSuccessFull.find(
+      (item) => item.parti_id === participantId
+    );
+    if (!isSolved) {
+      return console.log("Please solve first and you can review");
     }
 
     // already review??
@@ -150,7 +172,6 @@ export default class CTFPlatform {
       return console.log("Challenge not found");
     }
 
-    return chall_object.getReview()
-
+    return chall_object.getReview();
   }
 }

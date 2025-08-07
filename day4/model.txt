@@ -1,30 +1,67 @@
 User
+- id
 - name
 - email
 - username
-- password
+- password (private)
 - role
 
-
-Participant
+Participant extends User
 - campus
 - role = "participant"
++ getData()
++ getDataAuth()
 
-Admin
+Admin extends User
 - role = "admin"
++ getAllData()
 
-
-Chall
-- Title
+Challenge
+- id
+- title
 - description
-- flag
+- flag (private)
 - point
-- category
-+ checkFlag()
+- author
+- reviewList[]
++ checkFlag(inputFlag)
++ getReview()
++ getData()
 
 Submission
-- chall_title
-- username
+- chall_object
+- parti_object
 - flag
++ addSubmission({chall_object, parti_object, flag, leaderboardList, listSubmitSuccessFull})
++ #addToLeaderboard(chall_object, parti_object, leaderboardList)
++ #resultSubmision(parti_object, chall_object, flag, result)
+
+Review
+- participantId
+- title
+- description
+- rating (1-10)
+- date
++ validatetdRating(rating)
+
+CTFPlatform
+- nameCtf
+- listParticipant[]
+- listAdmin[]
+- listChall[]
+- leaderboardList[]
+- nextId
+- listSubmitSuccessFull[]
++ addAdmin({name, username, email, password})
++ registerParticipant({name, email, username, password, campus})
++ authLogin({username, password})
++ addChallenge({title, description, flag, point, adminId})
++ getAllParticipantList()
++ getAllAdminList()
++ getAllChallenge()
++ checkAdmin(adminId)
++ submitChall(flag, challId, participantId)
++ addReview({participantId, challId, title, description, rating})
++ getReviewChall({challId})
 
 

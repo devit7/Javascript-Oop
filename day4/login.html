@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CTF Platform - Register</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="max-w-[400px] mx-auto mt-20">
+      <form action="" id="formLogin" class="flex flex-col space-y-4">
+        <h1 class="text-2xl font-semibold">Login CTF</h1>
+        <div class="flex-col flex">
+          <label for="">Username</label>
+          <input
+            id="inputLoginUsername"
+            class="border"
+            value=""
+            name="username"
+            type="text"
+          />
+          <span id="errorUsername" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Password</label>
+          <input
+            id="inputLoginPassword"
+            class="border"
+            value=""
+            name="password"
+            type="text"
+          />
+          <span id="errorPassword" class="text-red-500"></span>
+        </div>
+        <button type="submit" class="border cursor-pointer">Submit</button>
+      </form>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

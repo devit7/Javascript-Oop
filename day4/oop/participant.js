@@ -22,6 +22,17 @@ class Participant extends User {
       role: this.role,
     };
   }
+
+  getDataAuth() {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      username: this.username,
+      password:this.password,
+      role: this.role,
+    };
+  }
 }
 
 export default Participant;
