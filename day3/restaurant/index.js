@@ -100,7 +100,7 @@ var Order = /** @class */ (function () {
         this.listOrderItem.push({
             menu: menu,
             quantity: quantity,
-            subTotal: menu.price * quantity
+            subTotal: menu.price * quantity,
         });
         this.calculateTotal();
     };
@@ -108,7 +108,7 @@ var Order = /** @class */ (function () {
         return {
             id: this.id,
             items: this.listOrderItem,
-            total: this.total
+            total: this.total,
         };
     };
     Order.prototype.calculateTotal = function () {
@@ -131,7 +131,29 @@ var Restaurant = /** @class */ (function () {
         this.listInDrinkMenu.push(new DrinkMenu(this.nextId++, name, price, category, type_of_drink));
     };
     Restaurant.prototype.createOrder = function () {
-        var order = new Order(this.nextId);
+        var order = new Order(this.nextId++);
+        this.orders.push(order);
+        return order;
+    };
+    Restaurant.prototype.addItemToOrder = function (orderId, menuId, quantity) {
+        var order = this.orders.find(function (item) { return item.id === orderId; });
+        var menu = this.findMenu(menuId);
+        if (menu && order) {
+            order.addItems(menu, quantity);
+            console.log("Order ".concat(quantity, " x ").concat(menu.name));
+        }
+        else {
+            console.log("Order or Menu not found !!");
+        }
+    };
+    Restaurant.prototype.findMenu = function (id) {
+        var food = this.listInFoodMenu.find(function (item) { return item.id === id; });
+        var drink = this.listInDrinkMenu.find(function (item) { return item.id === id; });
+        return food || drink;
+    };
+    Restaurant.prototype.getAllOrder = function (idOrder) {
+        var order = this.orders.find(function (item) { return item.id === idOrder; });
+        console.log(order);
     };
     Restaurant.prototype.getAllFoodMenu = function () {
         return console.log(this.listInFoodMenu);
@@ -148,3 +170,10 @@ restaurant.addDrinkMenu("Thai Tea", 10000, "Sweet Drink", "Tea");
 restaurant.addDrinkMenu("Coffee late", 10000, "Sweet Drink", "Coffee");
 restaurant.getAllFoodMenu();
 restaurant.getAllDrinkMenu();
+var order_1 = restaurant.createOrder();
+console.log("Your order id is : ".concat(order_1.id));
+// Add item to order
+restaurant.addItemToOrder(order_1.id, 1, 2);
+restaurant.addItemToOrder(order_1.id, 2, 4);
+//Show All Order
+console.log(restaurant.getAllOrder(order_1.id));

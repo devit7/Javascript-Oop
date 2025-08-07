@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CTF Platform - Register</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="max-w-[400px] mx-auto mt-20">
+      <form action="" id="formRegister" class="flex flex-col space-y-4">
+        <h1 class="text-2xl font-semibold">Register CTF</h1>
+        <div class="flex-col flex">
+          <label for="">Name</label>
+          <input
+            id="inputName"
+            class="border"
+            value=""
+            name="name"
+            type="text"
+          />
+          <span id="errorName" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Username</label>
+          <input
+            id="inputUsername"
+            class="border"
+            value=""
+            name="username"
+            type="text"
+          />
+          <span id="errorUsername" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Email</label>
+          <input
+            id="inputEmail"
+            class="border"
+            value=""
+            name="Email"
+            type="text"
+          />
+          <span id="errorEmail" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Password</label>
+          <input
+            id="inputPassword"
+            class="border"
+            value=""
+            name="password"
+            type="text"
+          />
+          <span id="errorPassword" class="text-red-500"></span>
+        </div>
+        <div class="flex-col flex">
+          <label for="">Campus</label>
+          <input
+            id="inputCampus"
+            class="border"
+            value=""
+            name="campus"
+            type="text"
+          />
+          <span id="errorCampus" class="text-red-500"></span>
+        </div>
+        <button type="submit" class="border cursor-pointer">Submit</button>
+      </form>
+    </div>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

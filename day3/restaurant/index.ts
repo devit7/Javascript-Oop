@@ -20,11 +20,11 @@ abstract class Menu {
   set name(val: string) {
     this._name = val;
   }
-  get category():string{
-    return this._category
+  get category(): string {
+    return this._category;
   }
-  set category(val:string){
-    this._category=val
+  set category(val: string) {
+    this._category = val;
   }
 }
 
@@ -40,24 +40,29 @@ class FoodMenu extends Menu {
     type_of_food: string
   ) {
     super(name, price, category);
-    this.id=id;
+    this.id = id;
     this._type_of_food = type_of_food;
   }
 
-  get type_of_food():string{
-    return this._type_of_food
+  get type_of_food(): string {
+    return this._type_of_food;
   }
-  set type_of_food(val:string){
-    this._type_of_food = val
+  set type_of_food(val: string) {
+    this._type_of_food = val;
   }
-
 }
 
 class DrinkMenu extends Menu {
   id: number;
   _type_of_drink: string;
 
-  constructor(id:number, name: string, price: number, category: string, type_of_drink: string) {
+  constructor(
+    id: number,
+    name: string,
+    price: number,
+    category: string,
+    type_of_drink: string
+  ) {
     super(name, price, category);
     this.id = id;
     this._type_of_drink = type_of_drink;
@@ -70,40 +75,41 @@ class DrinkMenu extends Menu {
   }
 }
 
-interface OrderItem{
-  menu:Menu;
+interface OrderItem {
+  menu: Menu;
   quantity: number;
   subTotal: number;
 }
 
-class Order{
-  total:number;
+class Order {
+  total: number;
   listOrderItem: OrderItem[] = [];
 
-  constructor(public id:number){
-  }
+  constructor(public id: number) {}
 
-  addItems(menu:Menu, quantity:number):void{
+  addItems(menu: Menu, quantity: number): void {
     this.listOrderItem.push({
       menu,
       quantity,
-      subTotal: menu.price * quantity
-    })
-    this.calculateTotal()
+      subTotal: menu.price * quantity,
+    });
+    this.calculateTotal();
   }
 
-  getOrder(){
+  getOrder() {
     return {
-      id:this.id,
+      id: this.id,
       items: this.listOrderItem,
-      total: this.total
-    }
+      total: this.total,
+    };
   }
 
-  calculateTotal(){
-    this.total = this.listOrderItem.reduce((sum, item) => sum + item.subTotal, 0);
+  calculateTotal() {
+    this.total = this.listOrderItem.reduce(
+      (sum, item) => sum + item.subTotal,
+      0
+    );
   }
-
 }
 
 class Restaurant {
@@ -141,28 +147,61 @@ class Restaurant {
     );
   }
 
-  createOrder(){
-    const order = new Order(this.nextId)
+  createOrder() {
+    const order = new Order(this.nextId++);
+    this.orders.push(order);
+    return order;
   }
 
-  getAllFoodMenu(){
-    return console.log(this.listInFoodMenu)
+  addItemToOrder(orderId: number, menuId: number, quantity: number) {
+    const order = this.orders.find((item) => item.id === orderId);
+    const menu = this.findMenu(menuId);
+
+    if (menu && order) {
+      order.addItems(menu, quantity);
+      console.log(`Added ${quantity} x ${menu.name}`);
+    } else {
+      console.log("Order or Menu not found !!");
+    }
   }
 
-  getAllDrinkMenu(){
-    return console.log(this.listInDrinkMenu)
+  findMenu(id: number) {
+    const food = this.listInFoodMenu.find((item) => item.id === id);
+    const drink = this.listInDrinkMenu.find((item) => item.id === id);
+    return food || drink;
+  }
+
+  getAllOrder(idOrder: number) {
+    const order = this.orders.find((item) => item.id === idOrder);
+    return order
+  }
+
+  getAllFoodMenu() {
+    return console.log(this.listInFoodMenu);
+  }
+
+  getAllDrinkMenu() {
+    return console.log(this.listInDrinkMenu);
   }
 }
 
 const restaurant = new Restaurant("Waroeng");
 
-restaurant.addFoodMenu( "Steak", 20000, "Heavy Food", "Meat");
-restaurant.addFoodMenu( "Rendang", 15000, "Heavy Food", "Meat");
+restaurant.addFoodMenu("Steak", 20000, "Heavy Food", "Meat");
+restaurant.addFoodMenu("Rendang", 15000, "Heavy Food", "Meat");
 
-restaurant.addDrinkMenu( "Thai Tea", 10000, "Sweet Drink", "Tea")
-restaurant.addDrinkMenu( "Coffee late", 10000, "Sweet Drink", "Coffee")
+restaurant.addDrinkMenu("Thai Tea", 10000, "Sweet Drink", "Tea");
+restaurant.addDrinkMenu("Coffee late", 10000, "Sweet Drink", "Coffee");
 
-restaurant.getAllFoodMenu()
-restaurant.getAllDrinkMenu()
+restaurant.getAllFoodMenu();
+restaurant.getAllDrinkMenu();
 
+const order_1 = restaurant.createOrder();
+console.log(`Your order id is : ${order_1.id}`);
 
+// Add item to order
+restaurant.addItemToOrder(order_1.id, 1, 2);
+restaurant.addItemToOrder(order_1.id, 2, 4);
+
+//Show All Order
+console.log(restaurant.getAllOrder(order_1.id))
