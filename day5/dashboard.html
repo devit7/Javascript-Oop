@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="max-w-[1200px] mx-auto p-5 mt-5 border flex justify-between">
+      <div id="isLogin"></div>
+      <button id="idLogout" class="border px-2">Logout</button>
+    </div>
+
+    <div class="max-w-[1200px] mx-auto mt-10 grid grid-cols-3 gap-6">
+      <!-- Form Make Challenge -->
+      <div class="border">
+        <h1 id="titleFormChall" class="font-semibold text-xl p-3">Make Challenge</h1>
+        <form action="" id="formChall" class="p-3 border-t">
+          <div class="mb-3">
+            <label class="block mb-1 text-sm">Title</label>
+            <input
+              id="inputChallTitle"
+              type="text"
+              name="title"
+              value=""
+              class="border w-full p-2 text-sm"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block mb-1 text-sm">Description</label>
+            <textarea
+              name=""
+              id="inputChallDesc"
+              class="border w-full p-2 text-sm"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="block mb-1 text-sm">Flag</label>
+            <input
+              id="inputChallFlag"
+              type="text"
+              name="flag"
+              value=""
+              class="border w-full p-2 text-sm"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block mb-1 text-sm">Point</label>
+            <input
+              id="inputChallPoint"
+              type="number"
+              name="point"
+              value=""
+              class="border w-full p-2 text-sm"
+            />
+          </div>
+          <button
+            id="submitFormChall"
+            type="submit"
+            class="border px-4 py-2 w-full text-sm "
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+
+      <!-- Table List Challenge -->
+      <div class="border col-span-2">
+        <h1 class="font-semibold text-xl p-3">Challenge List</h1>
+        <div class="border-t overflow-auto max-h-96">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="text-left p-2 border-b">ID</th>
+                <th class="text-left p-2 border-b">Title</th>
+                <th class="text-left p-2 border-b">Point</th>
+                <th class="text-left p-2 border-b">Action</th>
+              </tr>
+            </thead>
+            <tbody id="challTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
